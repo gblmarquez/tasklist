@@ -4,12 +4,21 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = Task.all
+    @tasks = Task.order("status DESC")
+    respond_to do |format|
+        format.html # index.html.erb
+        format.xml { render :xml => @tasks }
+    end
   end
 
   # GET /tasks/1
   # GET /tasks/1.json
   def show
+	@task = Task.find(params[:id])
+	respond_to do |format|
+		format.html # show.html.erb
+		format.xml { render :xml => @task }
+	end
   end
 
   # GET /tasks/new
@@ -17,8 +26,8 @@ class TasksController < ApplicationController
     @task = Task.new
     @authors = Author.all
     @categories = Category.all
-    repond_to do |format| 
-        format.html 
+    respond_to do |format| 
+        format.html # new.html.erb
         format.xml { render :xml => @task }
     end
   end
